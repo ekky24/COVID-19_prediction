@@ -40,17 +40,21 @@ $(document).ready(function(){
 
 	 function countryAjax(countryName) {
 	 	$.get("/predict/" + countryName, function(data, status){
-			console.log(data['prediction']);
-			console.log(data['actual']);
-			console.log(data['dates']);
+			dates = data['confirmed']['dates'];
+			confirmed_actual = data['confirmed']['actual'];
+			confirmed_prediction = data['confirmed']['prediction'];
+			deaths_actual = data['deaths']['actual'];
+			deaths_prediction = data['deaths']['prediction'];
+			recovered_actual = data['recovered']['actual'];
+			recovered_prediction = data['recovered']['prediction'];
 
-			dates = data['dates'];
-			actual = data['actual'];
-			prediction = data['prediction'];
-
-			countryChart.data.labels  = dates.slice(Math.max(dates.length - 30, 0));
-			countryChart.data.datasets[0].data  = actual.slice(Math.max(dates.length - 30, 0));
-			countryChart.data.datasets[1].data  = prediction.slice(Math.max(dates.length - 30, 0));
+			countryChart.data.labels  = dates.slice(Math.max(dates.length - 60, 0));
+			countryChart.data.datasets[0].data  = confirmed_actual.slice(Math.max(dates.length - 60, 0));
+			countryChart.data.datasets[1].data  = confirmed_prediction.slice(Math.max(dates.length - 60, 0));
+			countryChart.data.datasets[2].data  = deaths_actual.slice(Math.max(dates.length - 60, 0));
+			countryChart.data.datasets[3].data  = deaths_prediction.slice(Math.max(dates.length - 60, 0));
+			countryChart.data.datasets[4].data  = recovered_actual.slice(Math.max(dates.length - 60, 0));
+			countryChart.data.datasets[5].data  = recovered_prediction.slice(Math.max(dates.length - 60, 0));
 			countryChart.update();
 		});
 	 }
@@ -62,13 +66,21 @@ $(document).ready(function(){
 		}
 	});
 
+	$('#updateModel').click(function() {
+		$('#updateModel').prop('disabled', true);
+		$('#overlayCard').show();
+		$('#mainTitle').text('Updating the model...')
+
+		$.get("/update", function(data, status){
+			$('#updateModel').prop('disabled', false);
+			$('#overlayCard').hide();
+			$('#mainTitle').text('COVID-19 Prediction Dashboard')
+		});
+	});
+
 	countryAjax('Global');
 
-	var ticksStyle = {
-		fontColor: '#495057',
-		fontStyle: 'bold'
-	}
-	var mode      = 'index'
+	var mode      = 'point'
 	var intersect = true
 	var $countryChart = $('#countryChart')
 	var countryChart  = new Chart($countryChart, {
@@ -76,22 +88,72 @@ $(document).ready(function(){
 			labels  : [],
 			datasets: [{
 			  type                : 'line',
+			  label              : 'Confirmed',
 			  data                : [],
 			  backgroundColor     : 'transparent',
-			  borderColor         : '#007bff',
-			  pointBorderColor    : '#007bff',
-			  pointBackgroundColor: '#007bff',
+			  borderColor         : 'rgba(240, 173, 78, 1)',
+			  pointBorderColor    : 'rgba(240, 173, 78, 1)',
+			  pointBackgroundColor: 'rgba(240, 173, 78, 1)',
 			  fill                : false
 			  // pointHoverBackgroundColor: '#007bff',
 			  // pointHoverBorderColor    : '#007bff'
 			},
 			  {
 			    type                : 'line',
+			    label              : 'Predicted',
+			    data                : [],
+			    backgroundColor     : 'transparent',
+			    borderColor         : 'rgba(240, 173, 78, 0.5)',
+			    pointBorderColor    : 'rgba(240, 173, 78, 0.5)',
+			    pointBackgroundColor: 'rgba(240, 173, 78, 0.5)',
+			    fill                : false
+			    // pointHoverBackgroundColor: '#ced4da',
+			    // pointHoverBorderColor    : '#ced4da'
+			  },
+			  {
+			    type                : 'line',
+			    label              : 'Deceased',
 			    data                : [],
 			    backgroundColor     : 'tansparent',
-			    borderColor         : '#ced4da',
-			    pointBorderColor    : '#ced4da',
-			    pointBackgroundColor: '#ced4da',
+			    borderColor         : 'rgba(217, 83, 79, 1)',
+			    pointBorderColor    : 'rgba(217, 83, 79, 1)',
+			    pointBackgroundColor: 'rgba(217, 83, 79, 1)',
+			    fill                : false
+			    // pointHoverBackgroundColor: '#ced4da',
+			    // pointHoverBorderColor    : '#ced4da'
+			  },
+			  {
+			    type                : 'line',
+			    label              : 'Predicted',
+			    data                : [],
+			    backgroundColor     : 'transparent',
+			    borderColor         : 'rgba(217, 83, 79, 0.5)',
+			    pointBorderColor    : 'rgba(217, 83, 79, 0.5)',
+			    pointBackgroundColor: 'rgba(217, 83, 79, 0.5)',
+			    fill                : false
+			    // pointHoverBackgroundColor: '#ced4da',
+			    // pointHoverBorderColor    : '#ced4da'
+			  },
+			  {
+			    type                : 'line',
+			    label              : 'Recovered',
+			    data                : [],
+			    backgroundColor     : 'tansparent',
+			    borderColor         : 'rgba(92, 184, 92, 1)',
+			    pointBorderColor    : 'rgba(92, 184, 92, 1)',
+			    pointBackgroundColor: 'rgba(92, 184, 92, 1)',
+			    fill                : false
+			    // pointHoverBackgroundColor: '#ced4da',
+			    // pointHoverBorderColor    : '#ced4da'
+			  },
+			  {
+			    type                : 'line',
+			    label              : 'Predicted',
+			    data                : [],
+			    backgroundColor     : 'transparent',
+			    borderColor         : 'rgba(92, 184, 92, 0.5)',
+			    pointBorderColor    : 'rgba(92, 184, 92, 0.5)',
+			    pointBackgroundColor: 'rgba(92, 184, 92, 0.5)',
 			    fill                : false
 			    // pointHoverBackgroundColor: '#ced4da',
 			    // pointHoverBorderColor    : '#ced4da'
@@ -101,14 +163,14 @@ $(document).ready(function(){
 			maintainAspectRatio: false,
 			tooltips           : {
 			  mode     : mode,
-			  intersect: intersect
+			  intersect: intersect,
 			},
 			hover              : {
 			  mode     : mode,
 			  intersect: intersect
 			},
 			legend             : {
-			  display: false
+			  display: true
 			},
 			scales             : {
 			  yAxes: [{
@@ -119,17 +181,29 @@ $(document).ready(function(){
 				color        : 'rgba(0, 0, 0, .2)',
 				zeroLineColor: 'transparent'
 			    },
-			    ticks    : $.extend({
-				beginAtZero : true,
-				suggestedMax: 200
-			    }, ticksStyle)
+			    ticks    : {
+			    	fontColor: '#495057',
+					fontStyle: 'bold',
+					beginAtZero: true,
+					callback: function(value, index, values) {
+						if(value >= 1e6)
+							return value / 1e6 + 'M';
+						else if(value >= 1e3)
+							return value / 1e3 + 'K';
+						else
+							return value;
+                    }
+			    }
 			  }],
 			  xAxes: [{
 			    display  : true,
 			    gridLines: {
 				display: false
 			    },
-			    ticks    : ticksStyle
+			    ticks    : {
+                    fontColor: '#495057',
+					fontStyle: 'bold'
+                }
 			  }]
 			}
 		}

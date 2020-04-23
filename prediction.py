@@ -14,18 +14,14 @@ from sklearn.neural_network import MLPRegressor
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 
 class Prediction:
-	def __init__(self, future_dates=14):
+
+	def __init__(self, url, pred_type, future_dates=14):
+		self.url = url
+		self.pred_type = pred_type
 		self.future_dates = future_dates
 
-		confirmed_raw = pd.read_csv('https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv')
-		# deaths_raw = pd.read_csv('https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv')
-		# recoveries_raw = pd.read_csv('https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv')
-
+		confirmed_raw = pd.read_csv(self.url)
 		confirmed_raw['Province/State'].fillna('-', inplace=True)
-		# deaths_raw['Province/State'].fillna('-', inplace=True)
-		# recoveries_raw['Province/State'].fillna('-', inplace=True)
-
-		# recoveries_raw.head()
 
 		self.indexes = ['Province/State', 'Country/Region']
 		self.geo_loc = ['Lat', 'Long']
@@ -97,12 +93,12 @@ class Prediction:
 			mlp_final.fit(x_train, y_train)
 
 			if(index == 'Taiwan*'): index = 'Taiwan'
-			pickle.dump(mlp_final, open('static/model/'+index+'.pkl', 'wb'))
+			pickle.dump(mlp_final, open('static/model/'+self.pred_type+'/'+index+'.pkl', 'wb'))
 
 	def get_prediction(self, country_name):
 		directory = 'static/model'
 
-		model = pickle.load(open(directory + '/' + country_name + '.pkl', 'rb'))
+		model = pickle.load(open(directory + '/' + self.pred_type + '/' + country_name + '.pkl', 'rb'))
 		if(country_name == 'Taiwan'): country_name = 'Taiwan*'
 		x_train, x_test, x_pred, y_train, y_test = self.data_prep(self.confirmed_df, country_name, self.future_dates, self.dates)
 		

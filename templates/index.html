@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>AdminLTE 3 | Dashboard 3</title>
+  <title>COVID-19 Dashboard</title>
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="static/plugins/fontawesome-free/css/all.min.css">
@@ -34,7 +34,7 @@
       <div class="container">
         <div class="row mb-2">
           <div class="col-sm-12">
-            <h1 class="m-0 text-dark text-center">COVID-19 Prediction Dashboard</h1>
+            <h1 id="mainTitle" class="m-0 text-dark text-center">COVID-19 Prediction Dashboard</h1>
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -60,14 +60,17 @@
                 </div>
 
                 <div class="position-relative mb-4" style="margin-top: 5%">
-                  <h4 class="text-center">Number of Confirmed Cases</h4>
+                  <h4 class="text-center">Number of Cases</h4>
                 </div>
 
                 <div class="position-relative mb-4" style="margin-top: 30px">
                   <canvas id="countryChart" height="250"></canvas>
                 </div>
+              </div>
 
-                </div>
+              <div id="overlayCard" class="overlay" style="display: none">
+                <!-- <h3 style="margin-right: 20px">Updating Model...</h3> -->
+                <p><i class="fas fa-2x fa-sync-alt fa-spin"></i></p>
               </div>
             </div>
             <!-- /.card -->
