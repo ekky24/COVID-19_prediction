@@ -29,4 +29,4 @@ if __name__ == "__main__":
 	prediction_confirmed = Prediction(url=confirmed_url, pred_type='confirmed')
 	prediction_deaths = Prediction(url=deaths_url, pred_type='deaths')
 	prediction_recovered = Prediction(url=recovered_url, pred_type='recovered')
-	app.run(debug=True)
+	app.run(debug=False)
