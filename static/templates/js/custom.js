@@ -57,7 +57,7 @@ $(document).ready(function(){
 			countryChart.data.datasets[5].data  = recovered_prediction.slice(Math.max(dates.length - 60, 0));
 			countryChart.update();
 
-			$('#cardTitle').text('Number of Cases in ' + countryName)
+			$('#cardTitle').text('Number of Cases in ' + countryName);
 		});
 	 }
 
