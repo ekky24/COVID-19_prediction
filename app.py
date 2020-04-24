@@ -28,4 +28,3 @@ recovered_url = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/maste
 prediction_confirmed = Prediction(url=confirmed_url, pred_type='confirmed')
 prediction_deaths = Prediction(url=deaths_url, pred_type='deaths')
 prediction_recovered = Prediction(url=recovered_url, pred_type='recovered')
-app.run(debug=False)
