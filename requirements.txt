@@ -17,8 +17,6 @@ branca==0.4.0
 cement==2.8.2
 certifi==2019.11.28
 cffi==1.14.0
-chardet==3.0.4
-clyent==1.2.2
 colorama==0.4.3
 comtypes==1.1.7
 ConfigArgParse==1.2
