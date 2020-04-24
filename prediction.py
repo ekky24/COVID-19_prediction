@@ -105,6 +105,7 @@ class Prediction:
 		y_proj_pred = model.predict(x_pred)
 		y_proj_pred = y_proj_pred.astype('int')
 
-		return {'prediction': y_proj_pred.tolist(), 
+		return {'country_name': country_name,
+				'prediction': y_proj_pred.tolist(), 
 				'actual': self.confirmed_df.loc[country_name, self.dates].to_list(), 
 				'dates': self.pred_dates}
