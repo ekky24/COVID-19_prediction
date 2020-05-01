@@ -48,13 +48,13 @@ $(document).ready(function(){
 			recovered_actual = data['recovered']['actual'];
 			recovered_prediction = data['recovered']['prediction'];
 
-			countryChart.data.labels  = dates.slice(Math.max(dates.length - 60, 0));
-			countryChart.data.datasets[0].data  = confirmed_actual.slice(Math.max(dates.length - 60, 0));
-			countryChart.data.datasets[1].data  = confirmed_prediction.slice(Math.max(dates.length - 60, 0));
-			countryChart.data.datasets[2].data  = deaths_actual.slice(Math.max(dates.length - 60, 0));
-			countryChart.data.datasets[3].data  = deaths_prediction.slice(Math.max(dates.length - 60, 0));
-			countryChart.data.datasets[4].data  = recovered_actual.slice(Math.max(dates.length - 60, 0));
-			countryChart.data.datasets[5].data  = recovered_prediction.slice(Math.max(dates.length - 60, 0));
+			countryChart.data.labels  = dates.slice(Math.max(dates.length - 120, 0));
+			countryChart.data.datasets[0].data  = confirmed_actual.slice(Math.max(dates.length - 120, 0));
+			countryChart.data.datasets[1].data  = confirmed_prediction.slice(Math.max(dates.length - 120, 0));
+			countryChart.data.datasets[2].data  = deaths_actual.slice(Math.max(dates.length - 120, 0));
+			countryChart.data.datasets[3].data  = deaths_prediction.slice(Math.max(dates.length - 120, 0));
+			countryChart.data.datasets[4].data  = recovered_actual.slice(Math.max(dates.length - 120, 0));
+			countryChart.data.datasets[5].data  = recovered_prediction.slice(Math.max(dates.length - 120, 0));
 			countryChart.update();
 
 			$('#cardTitle').text('Number of Cases in ' + countryName);

@@ -89,7 +89,7 @@ class Prediction:
 		for index, data in self.confirmed_df.iterrows():
 			x_train, x_test, x_pred, y_train, y_test = self.data_prep(self.confirmed_df, index, self.future_dates, self.dates)
 
-			mlp_final = MLPRegressor(hidden_layer_sizes=100, solver='lbfgs', alpha=0.00005, learning_rate_init=0.01, max_iter=300)
+			mlp_final = MLPRegressor(hidden_layer_sizes=200, solver='lbfgs', alpha=0.00005, learning_rate_init=0.01, max_iter=300)
 			mlp_final.fit(x_train, y_train)
 
 			if(index == 'Taiwan*'): index = 'Taiwan'
