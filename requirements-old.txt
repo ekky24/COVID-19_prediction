@@ -15,7 +15,7 @@ botocore==1.15.44
 Bottleneck==1.3.2
 branca==0.4.0
 cement==2.8.2
-certifi==2019.11.28
+certifi==2022.12.7
 cffi==1.14.0
 colorama==0.4.3
 comtypes==1.1.7
